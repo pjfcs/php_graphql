@@ -1,7 +1,7 @@
 # dev_php
 
 ````
-PHP with PostgreSQL - docker environment for software development purpose
+GraphQL - PHP with PostgreSQL - docker environment for software development purpose
 
 ````
 
