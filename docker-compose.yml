@@ -1,0 +1,43 @@
+version: "3.7"
+services:
+    php:
+        build:
+          args:
+            user: ${USER_LINUX}
+            uid:  ${USER_LINUX_UID}
+          context: ./php
+          dockerfile: Dockerfile
+        image: dev_php-php
+        container_name: dev_php-php1
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+          - ./src:/var/www
+        networks:
+          - dev_php_net
+    db:
+        image: postgres:13.3-alpine
+        container_name: dev_php-db
+        restart: unless-stopped
+        environment:
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            #PGDATA: /var/lib/postgresql/data/
+        volumes:
+            - ./postgresql/scripts:/docker-entrypoint-initdb.d
+            #- ./postgresql/dados:/var/lib/postgresql/data
+        networks:
+            - dev_php_net
+    app:
+        image: nginx:1.17-alpine
+        container_name: dev_php-app
+        restart: unless-stopped
+        ports:
+            - 8000:80
+        volumes:
+            - ./src:/var/www
+            - ./nginx:/etc/nginx/conf.d
+        networks:
+            - dev_php_net
+networks:
+    dev_php_net:
+        driver: bridge
