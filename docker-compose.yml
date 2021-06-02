@@ -21,10 +21,12 @@ services:
         restart: unless-stopped
         environment:
             POSTGRES_PASSWORD: ${DB_PASSWORD}
-            #PGDATA: /var/lib/postgresql/data/
+            PGDATA: /var/lib/postgresql/dados
         volumes:
+            - ./postgresql/dados:/var/lib/postgresql/dados
             - ./postgresql/scripts:/docker-entrypoint-initdb.d
-            #- ./postgresql/dados:/var/lib/postgresql/data
+        ports:
+            - 5432:5432
         networks:
             - dev_php_net
     app:
