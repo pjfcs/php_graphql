@@ -21,9 +21,9 @@ services:
         restart: unless-stopped
         environment:
             POSTGRES_PASSWORD: ${DB_PASSWORD}
-            PGDATA: /var/lib/postgresql/dados
+            PGDATA: /var/lib/postgresql/data
         volumes:
-            - ./postgresql/dados:/var/lib/postgresql/dados
+            - php_graphql-pgdata:/var/lib/postgresql/data
             - ./postgresql/scripts:/docker-entrypoint-initdb.d
         ports:
             - 5432:5432
@@ -43,3 +43,5 @@ services:
 networks:
     dev_php_net:
         driver: bridge
+volumes:
+    php_graphql-pgdata:
